@@ -1,0 +1,190 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "StackUnderTest.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "StackUnderTest.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "StackUnderTest": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "StackUnderTest.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/38634dd4d2f4ae6d6e81ca0b9c50277fc4fccfa5c4cbc421d46ff6fc87f4a6e5.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "StackUnderTest.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "StackUnderTest.assets"
+      ],
+      "metadata": {
+        "/StackUnderTest/EloServerless/DLQ/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessDLQE438888C"
+          }
+        ],
+        "/StackUnderTest/EloServerless/Table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTable73304A80"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetLogs165B71FA"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetExpressStateMachine/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetExpressStateMachineRole0F7E407C"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetExpressStateMachine/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetExpressStateMachineRoleDefaultPolicy8C486E97"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetExpressStateMachine/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetExpressStateMachine8C8C440D"
+          }
+        ],
+        "/StackUnderTest/EloServerless/PipeRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessPipeRoleDDD12826"
+          }
+        ],
+        "/StackUnderTest/EloServerless/PipeRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessPipeRoleDefaultPolicyB34D83F4"
+          }
+        ],
+        "/StackUnderTest/EloServerless/Pipe": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessPipeCB317AA7"
+          }
+        ],
+        "/StackUnderTest/Exports/Output{\"Ref\":\"EloServerlessTable73304A80\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefEloServerlessTable73304A8090133804"
+          }
+        ],
+        "/StackUnderTest/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/StackUnderTest/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "StackUnderTest"
+    },
+    "EloIntegTestDefaultTestDeployAssertEF6C98C2.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "EloIntegTestDefaultTestDeployAssertEF6C98C2.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "EloIntegTestDefaultTestDeployAssertEF6C98C2": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "EloIntegTestDefaultTestDeployAssertEF6C98C2.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/922214bedc70cb6078b90a63d7416237fd2836d96ebbd49d2b1ae33a28fe1b26.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "EloIntegTestDefaultTestDeployAssertEF6C98C2.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "StackUnderTest",
+        "EloIntegTestDefaultTestDeployAssertEF6C98C2.assets"
+      ],
+      "metadata": {
+        "/EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactWriteItems/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallDynamoDBtransactWriteItems"
+          }
+        ],
+        "/EloIntegTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+          }
+        ],
+        "/EloIntegTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+          }
+        ],
+        "/EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactGetItems/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallDynamoDBtransactGetItems"
+          }
+        ],
+        "/EloIntegTest/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/EloIntegTest/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "EloIntegTest/DefaultTest/DeployAssert"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

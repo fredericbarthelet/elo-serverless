@@ -1,0 +1,247 @@
+{
+ "Resources": {
+  "AwsApiCallDynamoDBtransactWriteItems": {
+   "Type": "Custom::DeployAssert@SdkCallDynamoDBtransactWriteItems",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F",
+      "Arn"
+     ]
+    },
+    "service": "DynamoDB",
+    "api": "transactWriteItems",
+    "parameters": {
+     "TransactItems": [
+      {
+       "Put": {
+        "TableName": {
+         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEloServerlessTable73304A8090133804"
+        },
+        "Item": {
+         "PK": {
+          "S": "PLAYER#Fred"
+         },
+         "ELO": {
+          "N": "1405"
+         }
+        }
+       }
+      },
+      {
+       "Put": {
+        "TableName": {
+         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEloServerlessTable73304A8090133804"
+        },
+        "Item": {
+         "PK": {
+          "S": "PLAYER#Antoine"
+         },
+         "ELO": {
+          "N": "1645"
+         }
+        }
+       }
+      },
+      {
+       "Put": {
+        "TableName": {
+         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEloServerlessTable73304A8090133804"
+        },
+        "Item": {
+         "PK": {
+          "S": "GAME#1"
+         },
+         "Payload": {
+          "M": {
+           "PlayerA": {
+            "S": "PLAYER#Fred"
+           },
+           "PlayerB": {
+            "S": "PLAYER#Antoine"
+           },
+           "Result": {
+            "N": "1"
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    },
+    "flattenResponse": "false",
+    "salt": "1672257263943"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Action": [
+          "dynamodb:TransactWriteItems"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          "*"
+         ]
+        },
+        {
+         "Effect": "Allow",
+         "Action": [
+          "dynamodb:PutItem"
+         ],
+         "Resource": [
+          "*"
+         ]
+        },
+        {
+         "Action": [
+          "dynamodb:TransactGetItems"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          "*"
+         ]
+        },
+        {
+         "Effect": "Allow",
+         "Action": [
+          "dynamodb:GetItem"
+         ],
+         "Resource": [
+          "*"
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Runtime": "nodejs14.x",
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "8c11dac2e4783cf2402fe69516709df4bf8e4a1224034cba17c2f466e3fa8c17.zip"
+    },
+    "Timeout": 120,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "AwsApiCallDynamoDBtransactGetItems": {
+   "Type": "Custom::DeployAssert@SdkCallDynamoDBtransactGetItems",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F",
+      "Arn"
+     ]
+    },
+    "service": "DynamoDB",
+    "api": "transactGetItems",
+    "parameters": {
+     "TransactItems": [
+      {
+       "Get": {
+        "Key": {
+         "PK": {
+          "S": "PLAYER#Fred"
+         }
+        },
+        "TableName": {
+         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEloServerlessTable73304A8090133804"
+        }
+       }
+      },
+      {
+       "Get": {
+        "Key": {
+         "PK": {
+          "S": "PLAYER#Antoine"
+         }
+        },
+        "TableName": {
+         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEloServerlessTable73304A8090133804"
+        }
+       }
+      }
+     ]
+    },
+    "flattenResponse": "false",
+    "salt": "1672257263943"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

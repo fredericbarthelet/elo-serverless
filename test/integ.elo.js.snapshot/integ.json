@@ -1,0 +1,12 @@
+{
+  "version": "22.0.0",
+  "testCases": {
+    "EloIntegTest/DefaultTest": {
+      "stacks": [
+        "StackUnderTest"
+      ],
+      "assertionStack": "EloIntegTest/DefaultTest/DeployAssert",
+      "assertionStackName": "EloIntegTestDefaultTestDeployAssertEF6C98C2"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "version": "22.0.0",
+  "files": {
+    "8c11dac2e4783cf2402fe69516709df4bf8e4a1224034cba17c2f466e3fa8c17": {
+      "source": {
+        "path": "asset.8c11dac2e4783cf2402fe69516709df4bf8e4a1224034cba17c2f466e3fa8c17.bundle",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "8c11dac2e4783cf2402fe69516709df4bf8e4a1224034cba17c2f466e3fa8c17.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "922214bedc70cb6078b90a63d7416237fd2836d96ebbd49d2b1ae33a28fe1b26": {
+      "source": {
+        "path": "EloIntegTestDefaultTestDeployAssertEF6C98C2.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "922214bedc70cb6078b90a63d7416237fd2836d96ebbd49d2b1ae33a28fe1b26.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

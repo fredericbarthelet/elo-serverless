@@ -1,0 +1,662 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "StackUnderTest": {
+        "id": "StackUnderTest",
+        "path": "StackUnderTest",
+        "children": {
+          "EloServerless": {
+            "id": "EloServerless",
+            "path": "StackUnderTest/EloServerless",
+            "children": {
+              "DLQ": {
+                "id": "DLQ",
+                "path": "StackUnderTest/EloServerless/DLQ",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "StackUnderTest/EloServerless/DLQ/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "messageRetentionPeriod": 1209600
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                      "version": "2.57.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.Queue",
+                  "version": "2.57.0"
+                }
+              },
+              "Table": {
+                "id": "Table",
+                "path": "StackUnderTest/EloServerless/Table",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "StackUnderTest/EloServerless/Table/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                      "aws:cdk:cloudformation:props": {
+                        "keySchema": [
+                          {
+                            "attributeName": "PK",
+                            "keyType": "HASH"
+                          }
+                        ],
+                        "attributeDefinitions": [
+                          {
+                            "attributeName": "PK",
+                            "attributeType": "S"
+                          }
+                        ],
+                        "billingMode": "PAY_PER_REQUEST",
+                        "streamSpecification": {
+                          "streamViewType": "NEW_AND_OLD_IMAGES"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "ScalingRole": {
+                    "id": "ScalingRole",
+                    "path": "StackUnderTest/EloServerless/Table/ScalingRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.57.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+                  "version": "2.57.0"
+                }
+              },
+              "Pass": {
+                "id": "Pass",
+                "path": "StackUnderTest/EloServerless/Pass",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_stepfunctions.Pass",
+                  "version": "2.57.0"
+                }
+              },
+              "TargetLogs": {
+                "id": "TargetLogs",
+                "path": "StackUnderTest/EloServerless/TargetLogs",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "StackUnderTest/EloServerless/TargetLogs/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "retentionInDays": 731
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                      "version": "2.57.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                  "version": "2.57.0"
+                }
+              },
+              "TargetExpressStateMachine": {
+                "id": "TargetExpressStateMachine",
+                "path": "StackUnderTest/EloServerless/TargetExpressStateMachine",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.57.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "states.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.57.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "logs:CreateLogDelivery",
+                                        "logs:DeleteLogDelivery",
+                                        "logs:DescribeLogGroups",
+                                        "logs:DescribeResourcePolicies",
+                                        "logs:GetLogDelivery",
+                                        "logs:ListLogDeliveries",
+                                        "logs:PutResourcePolicy",
+                                        "logs:UpdateLogDelivery"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "EloServerlessTargetExpressStateMachineRoleDefaultPolicy8C486E97",
+                                "roles": [
+                                  {
+                                    "Ref": "EloServerlessTargetExpressStateMachineRole0F7E407C"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.57.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.57.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::StepFunctions::StateMachine",
+                      "aws:cdk:cloudformation:props": {
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "EloServerlessTargetExpressStateMachineRole0F7E407C",
+                            "Arn"
+                          ]
+                        },
+                        "definitionString": "{\"StartAt\":\"Pass\",\"States\":{\"Pass\":{\"Type\":\"Pass\",\"End\":true}}}",
+                        "loggingConfiguration": {
+                          "destinations": [
+                            {
+                              "cloudWatchLogsLogGroup": {
+                                "logGroupArn": {
+                                  "Fn::GetAtt": [
+                                    "EloServerlessTargetLogs165B71FA",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "includeExecutionData": true,
+                          "level": "ALL"
+                        },
+                        "stateMachineType": "EXPRESS"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_stepfunctions.CfnStateMachine",
+                      "version": "2.57.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_stepfunctions.StateMachine",
+                  "version": "2.57.0"
+                }
+              },
+              "PipeRole": {
+                "id": "PipeRole",
+                "path": "StackUnderTest/EloServerless/PipeRole",
+                "children": {
+                  "ImportPipeRole": {
+                    "id": "ImportPipeRole",
+                    "path": "StackUnderTest/EloServerless/PipeRole/ImportPipeRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "StackUnderTest/EloServerless/PipeRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "pipes.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "StackUnderTest/EloServerless/PipeRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "StackUnderTest/EloServerless/PipeRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "states:StartSyncExecution",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Ref": "EloServerlessTargetExpressStateMachine8C8C440D"
+                                  }
+                                },
+                                {
+                                  "Action": "dynamodb:ListStreams",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:DescribeStream",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "EloServerlessTable73304A80",
+                                      "StreamArn"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "Action": [
+                                    "sqs:GetQueueAttributes",
+                                    "sqs:GetQueueUrl",
+                                    "sqs:SendMessage"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "EloServerlessDLQE438888C",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "EloServerlessPipeRoleDefaultPolicyB34D83F4",
+                            "roles": [
+                              {
+                                "Ref": "EloServerlessPipeRoleDDD12826"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.57.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.57.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.57.0"
+                }
+              },
+              "Pipe": {
+                "id": "Pipe",
+                "path": "StackUnderTest/EloServerless/Pipe",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Pipes::Pipe",
+                  "aws:cdk:cloudformation:props": {
+                    "roleArn": {
+                      "Fn::GetAtt": [
+                        "EloServerlessPipeRoleDDD12826",
+                        "Arn"
+                      ]
+                    },
+                    "source": {
+                      "Fn::GetAtt": [
+                        "EloServerlessTable73304A80",
+                        "StreamArn"
+                      ]
+                    },
+                    "target": {
+                      "Ref": "EloServerlessTargetExpressStateMachine8C8C440D"
+                    },
+                    "sourceParameters": {
+                      "filterCriteria": {
+                        "filters": [
+                          {
+                            "pattern": "{\"eventName\":[\"INSERT\"]}"
+                          }
+                        ]
+                      },
+                      "dynamoDbStreamParameters": {
+                        "startingPosition": "TRIM_HORIZON",
+                        "batchSize": 1,
+                        "deadLetterConfig": {
+                          "arn": {
+                            "Fn::GetAtt": [
+                              "EloServerlessDLQE438888C",
+                              "Arn"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_pipes.CfnPipe",
+                  "version": "2.57.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.202"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "StackUnderTest/Exports",
+            "children": {
+              "Output{\"Ref\":\"EloServerlessTable73304A80\"}": {
+                "id": "Output{\"Ref\":\"EloServerlessTable73304A80\"}",
+                "path": "StackUnderTest/Exports/Output{\"Ref\":\"EloServerlessTable73304A80\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.57.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.202"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "StackUnderTest/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.57.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "StackUnderTest/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.57.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.57.0"
+        }
+      },
+      "EloIntegTest": {
+        "id": "EloIntegTest",
+        "path": "EloIntegTest",
+        "children": {
+          "DefaultTest": {
+            "id": "DefaultTest",
+            "path": "EloIntegTest/DefaultTest",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "EloIntegTest/DefaultTest/Default",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.1.202"
+                }
+              },
+              "DeployAssert": {
+                "id": "DeployAssert",
+                "path": "EloIntegTest/DefaultTest/DeployAssert",
+                "children": {
+                  "AwsApiCallDynamoDBtransactWriteItems": {
+                    "id": "AwsApiCallDynamoDBtransactWriteItems",
+                    "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactWriteItems",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactWriteItems/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactWriteItems/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.1.202"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.57.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactWriteItems/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactWriteItems/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.57.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.57.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.57.0-alpha.0"
+                    }
+                  },
+                  "SingletonFunction1488541a7b23466481b69b4408076b81": {
+                    "id": "SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "path": "EloIntegTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "EloIntegTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.57.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "EloIntegTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.57.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "EloIntegTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.57.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.1.202"
+                    }
+                  },
+                  "AwsApiCallDynamoDBtransactGetItems": {
+                    "id": "AwsApiCallDynamoDBtransactGetItems",
+                    "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactGetItems",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactGetItems/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactGetItems/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.1.202"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.57.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactGetItems/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactGetItems/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.57.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.57.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.57.0-alpha.0"
+                    }
+                  },
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "EloIntegTest/DefaultTest/DeployAssert/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "EloIntegTest/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.57.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.57.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
+              "version": "2.57.0-alpha.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
+          "version": "2.57.0-alpha.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.202"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.57.0"
+    }
+  }
+}
