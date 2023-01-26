@@ -19,6 +19,8 @@ import {
   StateMachine,
   StateMachineType,
   LogLevel,
+  CustomState,
+  Chain,
 } from 'aws-cdk-lib/aws-stepfunctions';
 import { Construct } from 'constructs';
 
@@ -43,11 +45,36 @@ export class EloServerless extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
+    const finalStatus = new Pass(this, 'Final Step');
+
+    const stateJson = {
+      Type: 'Task',
+      Resource: 'arn:aws:states:::dynamodb:putItem',
+      Parameters: {
+        TableName: this.table.tableName,
+        Item: {
+          [PK]: {
+            S: 'PLAYER#MACHINE',
+          },
+          ELO: {
+            S: '1',
+          },
+        },
+      },
+      ResultPath: null,
+    };
+
+    const custom = new CustomState(this, 'Update Score', {
+      stateJson,
+    });
+
+    const chain = Chain.start(custom).next(finalStatus);
+
     const targetStateMachine = new StateMachine(
       this,
       'TargetExpressStateMachine',
       {
-        definition: new Pass(this, 'Pass'),
+        definition: chain,
         stateMachineType: StateMachineType.EXPRESS,
         logs: {
           destination: new LogGroup(this, 'TargetLogs', {
@@ -66,6 +93,7 @@ export class EloServerless extends Construct {
 
     targetStateMachine.grantStartSyncExecution(pipeRole);
     this.table.grantStreamRead(pipeRole);
+    this.table.grantWriteData(targetStateMachine);
     dlq.grantSendMessages(pipeRole);
 
     new CfnPipe(this, 'Pipe', {
