@@ -11,16 +11,12 @@ import {
   StartingPosition,
   FilterRule,
 } from 'aws-cdk-lib/aws-lambda';
-import { LogGroup } from 'aws-cdk-lib/aws-logs';
+
 import { CfnPipe } from 'aws-cdk-lib/aws-pipes';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
-import {
-  Pass,
-  StateMachine,
-  StateMachineType,
-  LogLevel,
-} from 'aws-cdk-lib/aws-stepfunctions';
+
 import { Construct } from 'constructs';
+import { StateMachineConstruct } from './StateMachineConstruct';
 
 export interface EloServerlessProps {}
 
@@ -43,28 +39,16 @@ export class EloServerless extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const targetStateMachine = new StateMachine(
-      this,
-      'TargetExpressStateMachine',
-      {
-        definition: new Pass(this, 'Pass'),
-        stateMachineType: StateMachineType.EXPRESS,
-        logs: {
-          destination: new LogGroup(this, 'TargetLogs', {
-            // to be removed at later stage
-            removalPolicy: RemovalPolicy.DESTROY,
-          }),
-          includeExecutionData: true,
-          level: LogLevel.ALL,
-        },
-      },
-    );
-
     const pipeRole = new Role(this, 'PipeRole', {
       assumedBy: new ServicePrincipal('pipes.amazonaws.com'),
     });
 
-    targetStateMachine.grantStartSyncExecution(pipeRole);
+    const stateMachineConstruct = new StateMachineConstruct(
+      this,
+      'TargetExpressStateMachine',
+      pipeRole,
+    );
+
     this.table.grantStreamRead(pipeRole);
     dlq.grantSendMessages(pipeRole);
 
@@ -85,7 +69,7 @@ export class EloServerless extends Construct {
           },
         },
       },
-      target: targetStateMachine.stateMachineArn,
+      target: stateMachineConstruct.stateMachine.stateMachineArn,
     });
   }
 }

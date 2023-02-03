@@ -1,5 +1,5 @@
 {
-  "version": "22.0.0",
+  "version": "29.0.0",
   "artifacts": {
     "StackUnderTest.assets": {
       "type": "cdk:asset-manifest",
@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/38634dd4d2f4ae6d6e81ca0b9c50277fc4fccfa5c4cbc421d46ff6fc87f4a6e5.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/75ae638d32f199b923f5b76fa3ded570cf598c0d014520f850f9b68a775da9cf.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -45,30 +45,6 @@
             "data": "EloServerlessTable73304A80"
           }
         ],
-        "/StackUnderTest/EloServerless/TargetLogs/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EloServerlessTargetLogs165B71FA"
-          }
-        ],
-        "/StackUnderTest/EloServerless/TargetExpressStateMachine/Role/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EloServerlessTargetExpressStateMachineRole0F7E407C"
-          }
-        ],
-        "/StackUnderTest/EloServerless/TargetExpressStateMachine/Role/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EloServerlessTargetExpressStateMachineRoleDefaultPolicy8C486E97"
-          }
-        ],
-        "/StackUnderTest/EloServerless/TargetExpressStateMachine/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EloServerlessTargetExpressStateMachine8C8C440D"
-          }
-        ],
         "/StackUnderTest/EloServerless/PipeRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -79,6 +55,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "EloServerlessPipeRoleDefaultPolicyB34D83F4"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetExpressStateMachine/TargetLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetExpressStateMachineTargetLogsF6EED1DA"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetExpressStateMachineRole1126628A"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetExpressStateMachineRoleDefaultPolicyD3CA9678"
+          }
+        ],
+        "/StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EloServerlessTargetExpressStateMachine7A2E2F03"
           }
         ],
         "/StackUnderTest/EloServerless/Pipe": [
@@ -124,7 +124,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/922214bedc70cb6078b90a63d7416237fd2836d96ebbd49d2b1ae33a28fe1b26.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1551827ac04a1b84f300099f716faf8ee2d2be659de019e1cb7a5a690ba67dc2.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
