@@ -31,94 +31,6 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "EloServerlessTargetLogs165B71FA": {
-   "Type": "AWS::Logs::LogGroup",
-   "Properties": {
-    "RetentionInDays": 731
-   },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete"
-  },
-  "EloServerlessTargetExpressStateMachineRole0F7E407C": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "states.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    }
-   }
-  },
-  "EloServerlessTargetExpressStateMachineRoleDefaultPolicy8C486E97": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": [
-        "logs:CreateLogDelivery",
-        "logs:DeleteLogDelivery",
-        "logs:DescribeLogGroups",
-        "logs:DescribeResourcePolicies",
-        "logs:GetLogDelivery",
-        "logs:ListLogDeliveries",
-        "logs:PutResourcePolicy",
-        "logs:UpdateLogDelivery"
-       ],
-       "Effect": "Allow",
-       "Resource": "*"
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "EloServerlessTargetExpressStateMachineRoleDefaultPolicy8C486E97",
-    "Roles": [
-     {
-      "Ref": "EloServerlessTargetExpressStateMachineRole0F7E407C"
-     }
-    ]
-   }
-  },
-  "EloServerlessTargetExpressStateMachine8C8C440D": {
-   "Type": "AWS::StepFunctions::StateMachine",
-   "Properties": {
-    "RoleArn": {
-     "Fn::GetAtt": [
-      "EloServerlessTargetExpressStateMachineRole0F7E407C",
-      "Arn"
-     ]
-    },
-    "DefinitionString": "{\"StartAt\":\"Pass\",\"States\":{\"Pass\":{\"Type\":\"Pass\",\"End\":true}}}",
-    "LoggingConfiguration": {
-     "Destinations": [
-      {
-       "CloudWatchLogsLogGroup": {
-        "LogGroupArn": {
-         "Fn::GetAtt": [
-          "EloServerlessTargetLogs165B71FA",
-          "Arn"
-         ]
-        }
-       }
-      }
-     ],
-     "IncludeExecutionData": true,
-     "Level": "ALL"
-    },
-    "StateMachineType": "EXPRESS"
-   },
-   "DependsOn": [
-    "EloServerlessTargetExpressStateMachineRoleDefaultPolicy8C486E97",
-    "EloServerlessTargetExpressStateMachineRole0F7E407C"
-   ]
-  },
   "EloServerlessPipeRoleDDD12826": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -145,7 +57,7 @@
        "Action": "states:StartSyncExecution",
        "Effect": "Allow",
        "Resource": {
-        "Ref": "EloServerlessTargetExpressStateMachine8C8C440D"
+        "Ref": "EloServerlessTargetExpressStateMachine7A2E2F03"
        }
       },
       {
@@ -192,6 +104,94 @@
     ]
    }
   },
+  "EloServerlessTargetExpressStateMachineTargetLogsF6EED1DA": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "EloServerlessTargetExpressStateMachineRole1126628A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "states.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "EloServerlessTargetExpressStateMachineRoleDefaultPolicyD3CA9678": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogDelivery",
+        "logs:DeleteLogDelivery",
+        "logs:DescribeLogGroups",
+        "logs:DescribeResourcePolicies",
+        "logs:GetLogDelivery",
+        "logs:ListLogDeliveries",
+        "logs:PutResourcePolicy",
+        "logs:UpdateLogDelivery"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EloServerlessTargetExpressStateMachineRoleDefaultPolicyD3CA9678",
+    "Roles": [
+     {
+      "Ref": "EloServerlessTargetExpressStateMachineRole1126628A"
+     }
+    ]
+   }
+  },
+  "EloServerlessTargetExpressStateMachine7A2E2F03": {
+   "Type": "AWS::StepFunctions::StateMachine",
+   "Properties": {
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "EloServerlessTargetExpressStateMachineRole1126628A",
+      "Arn"
+     ]
+    },
+    "DefinitionString": "{\"StartAt\":\"Map State\",\"States\":{\"Map State\":{\"Type\":\"Map\",\"Next\":\"Succeed\",\"Iterator\":{\"StartAt\":\"PassState\",\"States\":{\"PassState\":{\"Type\":\"Pass\",\"End\":true}}},\"ItemsPath\":\"$.0.dynamodb.NewImage.Payload.S\"},\"Succeed\":{\"Type\":\"Succeed\"}}}",
+    "LoggingConfiguration": {
+     "Destinations": [
+      {
+       "CloudWatchLogsLogGroup": {
+        "LogGroupArn": {
+         "Fn::GetAtt": [
+          "EloServerlessTargetExpressStateMachineTargetLogsF6EED1DA",
+          "Arn"
+         ]
+        }
+       }
+      }
+     ],
+     "IncludeExecutionData": true,
+     "Level": "ALL"
+    },
+    "StateMachineType": "EXPRESS"
+   },
+   "DependsOn": [
+    "EloServerlessTargetExpressStateMachineRoleDefaultPolicyD3CA9678",
+    "EloServerlessTargetExpressStateMachineRole1126628A"
+   ]
+  },
   "EloServerlessPipeCB317AA7": {
    "Type": "AWS::Pipes::Pipe",
    "Properties": {
@@ -208,7 +208,7 @@
      ]
     },
     "Target": {
-     "Ref": "EloServerlessTargetExpressStateMachine8C8C440D"
+     "Ref": "EloServerlessTargetExpressStateMachine7A2E2F03"
     },
     "SourceParameters": {
      "DynamoDBStreamParameters": {

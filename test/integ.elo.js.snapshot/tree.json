@@ -83,176 +83,6 @@
                   "version": "2.57.0"
                 }
               },
-              "Pass": {
-                "id": "Pass",
-                "path": "StackUnderTest/EloServerless/Pass",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_stepfunctions.Pass",
-                  "version": "2.57.0"
-                }
-              },
-              "TargetLogs": {
-                "id": "TargetLogs",
-                "path": "StackUnderTest/EloServerless/TargetLogs",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "StackUnderTest/EloServerless/TargetLogs/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
-                      "aws:cdk:cloudformation:props": {
-                        "retentionInDays": 731
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
-                      "version": "2.57.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_logs.LogGroup",
-                  "version": "2.57.0"
-                }
-              },
-              "TargetExpressStateMachine": {
-                "id": "TargetExpressStateMachine",
-                "path": "StackUnderTest/EloServerless/TargetExpressStateMachine",
-                "children": {
-                  "Role": {
-                    "id": "Role",
-                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role",
-                    "children": {
-                      "ImportRole": {
-                        "id": "ImportRole",
-                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/ImportRole",
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.57.0"
-                        }
-                      },
-                      "Resource": {
-                        "id": "Resource",
-                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/Resource",
-                        "attributes": {
-                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
-                          "aws:cdk:cloudformation:props": {
-                            "assumeRolePolicyDocument": {
-                              "Statement": [
-                                {
-                                  "Action": "sts:AssumeRole",
-                                  "Effect": "Allow",
-                                  "Principal": {
-                                    "Service": "states.amazonaws.com"
-                                  }
-                                }
-                              ],
-                              "Version": "2012-10-17"
-                            }
-                          }
-                        },
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.57.0"
-                        }
-                      },
-                      "DefaultPolicy": {
-                        "id": "DefaultPolicy",
-                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/DefaultPolicy",
-                        "children": {
-                          "Resource": {
-                            "id": "Resource",
-                            "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Role/DefaultPolicy/Resource",
-                            "attributes": {
-                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
-                              "aws:cdk:cloudformation:props": {
-                                "policyDocument": {
-                                  "Statement": [
-                                    {
-                                      "Action": [
-                                        "logs:CreateLogDelivery",
-                                        "logs:DeleteLogDelivery",
-                                        "logs:DescribeLogGroups",
-                                        "logs:DescribeResourcePolicies",
-                                        "logs:GetLogDelivery",
-                                        "logs:ListLogDeliveries",
-                                        "logs:PutResourcePolicy",
-                                        "logs:UpdateLogDelivery"
-                                      ],
-                                      "Effect": "Allow",
-                                      "Resource": "*"
-                                    }
-                                  ],
-                                  "Version": "2012-10-17"
-                                },
-                                "policyName": "EloServerlessTargetExpressStateMachineRoleDefaultPolicy8C486E97",
-                                "roles": [
-                                  {
-                                    "Ref": "EloServerlessTargetExpressStateMachineRole0F7E407C"
-                                  }
-                                ]
-                              }
-                            },
-                            "constructInfo": {
-                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                              "version": "2.57.0"
-                            }
-                          }
-                        },
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.aws_iam.Policy",
-                          "version": "2.57.0"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.57.0"
-                    }
-                  },
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::StepFunctions::StateMachine",
-                      "aws:cdk:cloudformation:props": {
-                        "roleArn": {
-                          "Fn::GetAtt": [
-                            "EloServerlessTargetExpressStateMachineRole0F7E407C",
-                            "Arn"
-                          ]
-                        },
-                        "definitionString": "{\"StartAt\":\"Pass\",\"States\":{\"Pass\":{\"Type\":\"Pass\",\"End\":true}}}",
-                        "loggingConfiguration": {
-                          "destinations": [
-                            {
-                              "cloudWatchLogsLogGroup": {
-                                "logGroupArn": {
-                                  "Fn::GetAtt": [
-                                    "EloServerlessTargetLogs165B71FA",
-                                    "Arn"
-                                  ]
-                                }
-                              }
-                            }
-                          ],
-                          "includeExecutionData": true,
-                          "level": "ALL"
-                        },
-                        "stateMachineType": "EXPRESS"
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_stepfunctions.CfnStateMachine",
-                      "version": "2.57.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_stepfunctions.StateMachine",
-                  "version": "2.57.0"
-                }
-              },
               "PipeRole": {
                 "id": "PipeRole",
                 "path": "StackUnderTest/EloServerless/PipeRole",
@@ -306,7 +136,7 @@
                                   "Action": "states:StartSyncExecution",
                                   "Effect": "Allow",
                                   "Resource": {
-                                    "Ref": "EloServerlessTargetExpressStateMachine8C8C440D"
+                                    "Ref": "EloServerlessTargetExpressStateMachine7A2E2F03"
                                   }
                                 },
                                 {
@@ -370,6 +200,202 @@
                   "version": "2.57.0"
                 }
               },
+              "TargetExpressStateMachine": {
+                "id": "TargetExpressStateMachine",
+                "path": "StackUnderTest/EloServerless/TargetExpressStateMachine",
+                "children": {
+                  "Map State": {
+                    "id": "Map State",
+                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Map State",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_stepfunctions.Map",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "PassState": {
+                    "id": "PassState",
+                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/PassState",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_stepfunctions.Pass",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "Succeed": {
+                    "id": "Succeed",
+                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/Succeed",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_stepfunctions.Succeed",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "TargetLogs": {
+                    "id": "TargetLogs",
+                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetLogs",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetLogs/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "retentionInDays": 731
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                          "version": "2.57.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                      "version": "2.57.0"
+                    }
+                  },
+                  "TargetExpressStateMachine": {
+                    "id": "TargetExpressStateMachine",
+                    "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine",
+                    "children": {
+                      "Role": {
+                        "id": "Role",
+                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Role",
+                        "children": {
+                          "ImportRole": {
+                            "id": "ImportRole",
+                            "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Role/ImportRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.57.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Role/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "states.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.57.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Role/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Role/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": [
+                                            "logs:CreateLogDelivery",
+                                            "logs:DeleteLogDelivery",
+                                            "logs:DescribeLogGroups",
+                                            "logs:DescribeResourcePolicies",
+                                            "logs:GetLogDelivery",
+                                            "logs:ListLogDeliveries",
+                                            "logs:PutResourcePolicy",
+                                            "logs:UpdateLogDelivery"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": "*"
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "EloServerlessTargetExpressStateMachineRoleDefaultPolicyD3CA9678",
+                                    "roles": [
+                                      {
+                                        "Ref": "EloServerlessTargetExpressStateMachineRole1126628A"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.57.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.57.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.57.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "StackUnderTest/EloServerless/TargetExpressStateMachine/TargetExpressStateMachine/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::StepFunctions::StateMachine",
+                          "aws:cdk:cloudformation:props": {
+                            "roleArn": {
+                              "Fn::GetAtt": [
+                                "EloServerlessTargetExpressStateMachineRole1126628A",
+                                "Arn"
+                              ]
+                            },
+                            "definitionString": "{\"StartAt\":\"Map State\",\"States\":{\"Map State\":{\"Type\":\"Map\",\"Next\":\"Succeed\",\"Iterator\":{\"StartAt\":\"PassState\",\"States\":{\"PassState\":{\"Type\":\"Pass\",\"End\":true}}},\"ItemsPath\":\"$.0.dynamodb.NewImage.Payload.S\"},\"Succeed\":{\"Type\":\"Succeed\"}}}",
+                            "loggingConfiguration": {
+                              "destinations": [
+                                {
+                                  "cloudWatchLogsLogGroup": {
+                                    "logGroupArn": {
+                                      "Fn::GetAtt": [
+                                        "EloServerlessTargetExpressStateMachineTargetLogsF6EED1DA",
+                                        "Arn"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "includeExecutionData": true,
+                              "level": "ALL"
+                            },
+                            "stateMachineType": "EXPRESS"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_stepfunctions.CfnStateMachine",
+                          "version": "2.57.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_stepfunctions.StateMachine",
+                      "version": "2.57.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.1.239"
+                }
+              },
               "Pipe": {
                 "id": "Pipe",
                 "path": "StackUnderTest/EloServerless/Pipe",
@@ -389,7 +415,7 @@
                       ]
                     },
                     "target": {
-                      "Ref": "EloServerlessTargetExpressStateMachine8C8C440D"
+                      "Ref": "EloServerlessTargetExpressStateMachine7A2E2F03"
                     },
                     "sourceParameters": {
                       "filterCriteria": {
@@ -422,7 +448,7 @@
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.1.202"
+              "version": "10.1.239"
             }
           },
           "Exports": {
@@ -440,7 +466,7 @@
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.1.202"
+              "version": "10.1.239"
             }
           },
           "BootstrapVersion": {
@@ -478,7 +504,7 @@
                 "path": "EloIntegTest/DefaultTest/Default",
                 "constructInfo": {
                   "fqn": "constructs.Construct",
-                  "version": "10.1.202"
+                  "version": "10.1.239"
                 }
               },
               "DeployAssert": {
@@ -498,7 +524,7 @@
                             "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactWriteItems/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
-                              "version": "10.1.202"
+                              "version": "10.1.239"
                             }
                           }
                         },
@@ -562,7 +588,7 @@
                     },
                     "constructInfo": {
                       "fqn": "constructs.Construct",
-                      "version": "10.1.202"
+                      "version": "10.1.239"
                     }
                   },
                   "AwsApiCallDynamoDBtransactGetItems": {
@@ -578,7 +604,7 @@
                             "path": "EloIntegTest/DefaultTest/DeployAssert/AwsApiCallDynamoDBtransactGetItems/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
-                              "version": "10.1.202"
+                              "version": "10.1.239"
                             }
                           }
                         },
@@ -650,7 +676,7 @@
         "path": "Tree",
         "constructInfo": {
           "fqn": "constructs.Construct",
-          "version": "10.1.202"
+          "version": "10.1.239"
         }
       }
     },
