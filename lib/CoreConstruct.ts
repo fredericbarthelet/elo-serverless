@@ -46,8 +46,9 @@ export class EloServerless extends Construct {
     const stateMachineConstruct = new StateMachineConstruct(
       this,
       'TargetExpressStateMachine',
-      pipeRole,
+      { pipeRole, table: this.table },
     );
+    this.table.grantReadData(stateMachineConstruct.stateMachine);
 
     this.table.grantStreamRead(pipeRole);
     dlq.grantSendMessages(pipeRole);
